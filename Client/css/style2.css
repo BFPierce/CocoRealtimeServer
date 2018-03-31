@@ -1,0 +1,231 @@
+html, body
+{
+  width: 100%;
+  height: 100%;
+}
+
+body
+{
+  background-color: #ffffff;
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Lato', sans-serif;
+}
+
+header
+{
+  height: 10%;
+  background-color: #2ba2db;
+}
+
+#videoFeedHint
+{
+  width: 100%;
+  font-size: 14pt;
+  background-color: #2ba2db;
+  text-align: center;
+}
+
+#header_text
+{
+  margin-left: 15%;
+  text-align: center;
+  padding-top: 1%;
+  font-size: 2.5rem;
+  color: #ffffff
+}
+
+#header_image
+{
+  float:left;
+}
+
+#uploadingModal
+{
+  display: none;
+  position: fixed;
+  width: 40%;
+  height: 60%;
+  z-index: 1;
+  overflow: auto;
+  margin-left: 30%;
+  margin-top: 10%;
+  background-color: #BDBDBD;
+}
+
+#experimentModal
+{
+  display: none;
+  position: fixed;
+  width: 40%;
+  height: 40%;
+  z-index: 1;
+  overflow: auto;
+  margin-left: 30%;
+  margin-top: 10%;
+  background-color: #BDBDBD;
+}
+
+#selectionModal
+{
+  /*display: none;*/
+  /*position: fixed;*/
+  z-index: 1;
+  overflow: auto;
+  background-color: #BDBDBD;
+}
+
+#UserIDInfoModal{
+  position: fixed;
+  display: none;
+  width: 40%;
+  height: 35%;
+  z-index: 1;
+  padding-top: 2%;
+  text-align: center;
+  align-items: center;
+  vertical-align: middle;
+  overflow: auto;
+  margin-left: 30%;
+  margin-top: 10%;
+  background-color: #BDBDBD;
+  font-family: 'Lato', sans-serif;
+}
+
+#sortable
+{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#sortable li
+{
+  margin: 0 3px 3px 3px;
+  padding-left: .5em;
+}
+
+#sortable li span {
+  /*position: absolute;
+  margin-left: -1.3em; */
+}
+
+.modal-content
+{
+  text-align: center;
+  font-size: 200%;
+}
+
+.loader
+{
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  margin-left: 40%;
+  margin-top: 10%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin
+{
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#remote_videos > video
+{
+  display: inline;
+  margin-top: 1%;
+  margin-left: 5%;
+  width: 10%;
+  float: none;
+}
+
+#session_wrapper
+{
+  float: left;
+  width: 70%;
+  height: 100%;
+}
+
+#users_scenario_display
+{
+  z-index: -1;
+  margin-left: 70%;
+  width: 30%;
+  height: 20%;
+  background-color: #f3f3f3;
+  text-align: center;
+  font-size: 10pt;
+}
+
+#users_priority_list
+{
+  z-index: -1;
+  margin-left: 70%;
+  width: 30%;
+  height: 40%;
+  background-color: #f3f3f3;
+  font-size: 10pt;
+}
+
+#user_final_rank
+{
+  z-index: -1;
+  margin-left: 70%;
+  width: 30%;
+  height: 40%;
+  background-color: #f3f3f3;
+  font-size: 10pt;
+}
+
+#background_feeds
+{
+  margin:auto;
+  width: 100%;
+  height:20%;
+}
+
+#main_div
+{
+  display: inline-block;
+  width:100%;
+  height:70%;
+  background-color: #e0e0d1;
+}
+
+#focus_feed > video
+{
+  position: relative;
+  margin-top: 1%;
+  margin-left: 20%;
+  width:60%;
+}
+
+#end_call_button
+{
+  margin-left: 2%;
+  width: 15%;
+  height: 50px;
+  background-color: #2ba2db;
+  color: #ffffff;
+  border-color: #A9A9A9;
+  float: right;
+}
+
+#getResults
+{
+  width: 20%;
+  height: 35px;
+  background-color: #2ba2db;
+  color: #ffffff;
+  border-color: #A9A9A9;
+  margin-left:40%;
+}
+
+#affdex_data
+{
+  display: none;
+}

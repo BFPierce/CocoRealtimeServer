@@ -1,0 +1,239 @@
+<!doctype html>
+
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>CoCo Conference Room</title>
+	<meta name="description" content="description">
+	<meta name="author" content="author">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="Client/css/style2.css">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+	<script src="https://conference.eastus.cloudapp.azure.com/RocConf/lib/bower_components/webrtc-adapter/adapter.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
+
+	<script src="https://download.affectiva.com/js/3.1/affdex.js"></script>
+	<script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+	<script src="Client/js_experiment/recording.js"></script>
+	<script src="Client/js_experiment/startup.js"></script>
+
+</head>
+
+<body onload='init()'>
+	<header>
+		<img src="Client/images/coco.png" id="header_image" alt="">
+		<div id="header_text">Conference Room <button id="end_call_button" onClick="proposeStop()">End Call</button></div>
+	</header>
+
+	<!--User ID Input Modal-->
+	<div id="UserIDInfoModal" class ="modal">
+	  UserID:
+	  <br>
+	  <select id="DropDownChoice">
+	    <!--Member A Options-->
+	    <option value="A1">A1</option>
+	    <option value="A2">A2</option>
+	    <option value="A3">A3</option>
+	    <option value="A4">A4</option>
+	    <option value="A5">A5</option>
+	    <option value="A6">A6</option>
+	    <option value="A7">A7</option>
+	    <option value="A8">A8</option>
+	    <option value="A9">A9</option>
+	    <option value="A10">A10</option>
+			<option value="A11">A11</option>
+			<option value="A12">A12</option>
+			<option value="A13">A13</option>
+			<option value="A14">A14</option>
+			<option value="A15">A15</option>
+
+	    <!--Member B Options-->
+	    <option value="B1">B1</option>
+	    <option value="B2">B2</option>
+	    <option value="B3">B3</option>
+	    <option value="B4">B4</option>
+	    <option value="B5">B5</option>
+	    <option value="B6">B6</option>
+	    <option value="B7">B7</option>
+	    <option value="B8">B8</option>
+	    <option value="B9">B9</option>
+	    <option value="B10">B10</option>
+			<option value="B11">B11</option>
+			<option value="B12">B12</option>
+			<option value="B13">B13</option>
+			<option value="B14">B14</option>
+			<option value="B15">B15</option>
+
+	    <!--Member C Options-->
+	    <option value="C1">C1</option>
+	    <option value="C2">C2</option>
+	    <option value="C3">C3</option>
+	    <option value="C4">C4</option>
+	    <option value="C5">C5</option>
+	    <option value="C6">C6</option>
+	    <option value="C7">C7</option>
+	    <option value="C8">C8</option>
+	    <option value="C9">C9</option>
+	    <option value="C10">C10</option>
+			<option value="C11">C11</option>
+			<option value="C12">C12</option>
+			<option value="C13">C13</option>
+			<option value="C14">C14</option>
+			<option value="C15">C15</option>
+
+	    <!--Member D Options-->
+	    <option value="D1">D1</option>
+	    <option value="D2">D2</option>
+	    <option value="D3">D3</option>
+	    <option value="D4">D4</option>
+	    <option value="D5">D5</option>
+	    <option value="D6">D6</option>
+	    <option value="D7">D7</option>
+	    <option value="D8">D8</option>
+	    <option value="D9">D9</option>
+	    <option value="D10">D10</option>
+			<option value="D11">D11</option>
+			<option value="D12">D12</option>
+			<option value="D13">D13</option>
+			<option value="D14">D14</option>
+			<option value="D15">D15</option>
+	  </select>
+
+	  <br>
+	  <br>
+
+	    <!--Session Selection Radio Buttons-->
+	    Which session is this?
+	    <div id="SessionRadios">
+	      <input type="radio" name="Session" value="1"> Session 1<br>
+	      <input type="radio" name="Session" value="2"> Session 2<br>
+	    </div>
+
+	  <br>
+
+	    <!--Checkbox for Lenovo Tag Concatenation-->
+	    Is this laptop a Lenovo?
+	    <div id="LenovoCheck">
+	      <input type="radio" name="Lenovo" value="LENOVO"> Yes<br>
+	      <input type="radio" name="Lenovo" value=""> No<br>
+	    </div>
+
+	  <br>
+
+	    <!--Button for Submission-->
+	    <button type="button" id="UserIDSubmissionButton" onclick="onUserIDModalClick()">Submit User Session Info</button>
+	</div>
+
+	<!--Modal-->
+	<div id="uploadingModal" class="modal">
+		<!--Modal Content-->
+		<div class="modal-content">
+			<p>Uploading Session Data...</p>
+			<p>Please fill out the survey below while waiting!</p>
+			<p><a href="https://docs.google.com/a/u.rochester.edu/forms/d/e/1FAIpQLSf117LCNo60icBBcCEVrrsFI1VgFwus7Igs4zN7kdM--aNAvw/viewform" target="_new">Conference Survey</a></p>
+		</div>
+		<div class="loader"></div>
+	</div>
+	<div id="experimentModal" class="modal">
+		<!--Modal Content-->
+		<div class="modal-content">
+			<p>Waiting for others to submit answers...</p>
+		</div>
+		<div class="loader"></div>
+	</div>
+	<div id="selectionModal" class="modal">
+		<div class="modal-content">
+			<ul id="sortable">
+
+			</ul>
+		</div>
+		<button id="getResults" onclick="getResults()">Submit Results</button>
+	</div>
+
+	<div id="session_wrapper">
+		<div id="main_div">
+			<input type="hidden" id="focus_target"/>
+			<div id="focus_feed"></div>
+		</div>
+		<div id="background_feeds">
+			<span id="remote_videos"></span>
+			<div id="videoFeedHint"><b>You can hover over video feeds with your mouse cursor to make them larger!</b></div>
+		</div>
+	</div>
+
+	<div id="users_scenario_display"></div>
+	<div id="users_priority_list"></div>
+	<div id="user_final_rank">
+		<p align='center'><b>Group Ranking</b></p>
+		<p align='center'>
+			<select id="user_final_one"></select>
+			<select id="user_final_two"></select>
+			<select id="user_final_three"></select>
+			<select id="user_final_four"></select>
+			<select id="user_final_five"></select>
+		</p>
+	</div>
+
+	<div id="affdex_data"></div>
+</body>
+
+<script src="Client/js/affdexheadtrack.js"></script>
+<script src="Client/js/focus.js"></script>
+<script src="Client/js_experiment/session-two.js"></script>
+<script>
+	var selection_options = ["Box of matches","Food concentrate","Fifty feet of nylon rope",
+	                         "Parachute silk","Solar-powered portable heating unit","Two .45 caliber pistols",
+							 "One case of Pet milk","Two 100-pound tanks of oxygen","Stellar map (of the moon's constellations)",
+							 "Self-inflating life raft","Magnetic compass","5 gallons of water","Signal flares",
+							 "First-aid kit injection needles","Solar-powered FM receiver-transmitter"];
+
+	var selectionDiv = $( "#sortable" )
+	var optionOne = $("#user_final_one");
+	var optionTwo = $("#user_final_two");
+	var optionThree = $("#user_final_three");
+	var optionFour = $("#user_final_four");
+	var optionFive = $("#user_final_five");
+
+	optionOne.append("<option value=''>-- Select --</option>");
+	optionTwo.append("<option value=''>-- Select --</option>");
+	optionThree.append("<option value=''>-- Select --</option>");
+	optionFour.append("<option value=''>-- Select --</option>");
+	optionFive.append("<option value=''>-- Select --</option>");
+
+	for(var i = 0; i < selection_options.length; i++)
+	{
+		selectionDiv.append( "<li class='ui-state-default' id='"+i+"'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"+selection_options[i]+"</li>");
+		optionOne.append("<option value='" + selection_options[i] + "'>" + selection_options[i] + "</option>");
+		optionTwo.append("<option value='" + selection_options[i] + "'>" + selection_options[i] + "</option>");
+		optionThree.append("<option value='" + selection_options[i] + "'>" + selection_options[i] + "</option>");
+		optionFour.append("<option value='" + selection_options[i] + "'>" + selection_options[i] + "</option>");
+		optionFive.append("<option value='" + selection_options[i] + "'>" + selection_options[i] + "</option>");
+	}
+
+	$( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+
+    function getResults()
+    {
+	   	var rawSelection = $( "#sortable" ).sortable( "toArray" );
+	   	var cleanSelection = [];
+	   	for(var i = 0; i < rawSelection.length; i++)
+	   	{
+	   		cleanSelection.push({"item":selection_options[rawSelection[i]],"rank":i});
+
+	   	}
+
+	   	console.log(cleanSelection);
+	   	submit_answers(cleanSelection);
+	}
+
+</script>
+
+</html>
