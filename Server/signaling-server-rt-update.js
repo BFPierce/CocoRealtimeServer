@@ -117,7 +117,9 @@ io.sockets.on('connection', function (socket)
 			sessions[channel] = uuid.v1();
 			sessionStarted[channel] = false;
 			connectedUsers[channel] = 0;
-			uploadsFinishedCount[channel] = 0;
+            uploadsFinishedCount[channel] = 0;
+            interruptionCounts[channel] = {};
+            interruptionDetection[channel] = {};
         }
 
         for (id in channels[channel])
@@ -160,6 +162,26 @@ io.sockets.on('connection', function (socket)
             
             // Start a routine to keep check for interruptions, update counts, and broadcast
             // that information the the relevant users.
+            setInterval(function (thisChannel){
+                let socketsSpeaking = [];
+
+                console.log("Starting Interruption Analysis for channel " + thisChannel);
+
+                for(id in interruptionDetection[thisChannel]){
+                    if(interruptionDetection[thisChannel][id])
+                        socketsSpeaking.push(id);
+                }
+
+                // If we have more than one person speaking in this channel, let them know!
+                if(socketsSpeaking.length > 1){
+                    console.log("Detected " + socketsSpeaking.length + " users speaking in channel " + thisChannel);
+                    for(id in socketsSpeaking){
+                        interruptionCounts[thisChannel][id] = interruptionCounts[thisChannel][id] + 1;
+                        channels[thisChannel][id].emit('interrupt_detected', { count: interruptionCounts[thisChannel][id] });
+                    }
+                }
+
+            }, 2000, channel);
 		}
     });
 
