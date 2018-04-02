@@ -172,6 +172,7 @@ io.sockets.on('connection', function (socket)
                         socketsSpeaking.push(id);
                 }
 
+                console.log(socketsSpeaking);
                 console.log(interruptionDetection[thisChannel]);
 
                 // If we have more than one person speaking in this channel, let them know!
