@@ -179,7 +179,7 @@ io.sockets.on('connection', function (socket)
                 if(socketsSpeaking.length > 1){
                     console.log("Detected " + socketsSpeaking.length + " users speaking in channel " + thisChannel);
                     for(comSocket in channels[thisChannel]){
-                        console.log(comSocket.id);
+                        console.log(comSocket);
                         if(socketsSpeaking.indexOf(comSocket.id) > -1){
                             interruptionCounts[thisChannel][comSocket.id] = interruptionCounts[thisChannel][comSocket.id] + 1;
                             channels[thisChannel][comSocket].emit('interrupt_detected', { count: interruptionCounts[thisChannel][comSocket.id] });
