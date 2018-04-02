@@ -172,6 +172,8 @@ io.sockets.on('connection', function (socket)
                         socketsSpeaking.push(id);
                 }
 
+                console.log(interruptionDetection[thisChannel]);
+
                 // If we have more than one person speaking in this channel, let them know!
                 if(socketsSpeaking.length > 1){
                     console.log("Detected " + socketsSpeaking.length + " users speaking in channel " + thisChannel);
@@ -181,7 +183,7 @@ io.sockets.on('connection', function (socket)
                     }
                 }
 
-            }, 2000, channel);
+            }, 5000, channel);
 		}
     });
 
@@ -250,8 +252,7 @@ io.sockets.on('connection', function (socket)
         var peer_id = config.id;
         var type = config.type;
 
-        console.log("recieved speaking message");
-        console.log(config);
+        console.log("recieved speaking message: " + config.type + " : " + config.id);
 
         if(type === "speaking" && sessionStarted[channel])
             interruptionDetection[channel][peer_id] = true;
