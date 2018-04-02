@@ -250,10 +250,10 @@ io.sockets.on('connection', function (socket)
     // A Client has submitted a message that they are 'speaking' or 'not speaking'
     socket.on('speaking', function(config) {
         var channel = config.channel;
-        var peer_id = config.id;
+        var peer_id = config.peer_id;
         var type = config.type;
 
-        console.log("recieved speaking message: " + config.type + " : " + config.id);
+        console.log("recieved speaking message: " + config.type + " : " + config.peer_id);
 
         if(type === "speaking" && sessionStarted[channel])
             interruptionDetection[channel][peer_id] = true;
