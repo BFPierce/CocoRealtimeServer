@@ -152,22 +152,20 @@ io.sockets.on('connection', function (socket)
 		{
             // Broadcast to all clients in the channel after a set delay to ensure they have
             // all booted up any dependencies before starting the analysis.
-			setTimeout(function ()
-			{
+			setTimeout(function () {
 				for(id in channels[channel])
 					channels[channel][id].emit('session_start','start');
 				sessionStarted[channel] = true;
-			},
-            3000);
+			}, 3000);
             
             // Start a routine to keep check for interruptions, update counts, and broadcast
             // that information the the relevant users.
-            setInterval(function (thisChannel){
+            setInterval(function (thisChannel) {
                 let socketsSpeaking = [];
 
                 console.log("Starting Interruption Analysis for channel " + thisChannel);
 
-                for(id in interruptionDetection[thisChannel]){
+                for(id in interruptionDetection[thisChannel]) {
                     if(interruptionDetection[thisChannel][id])
                         socketsSpeaking.push(id);
                 }
@@ -176,12 +174,13 @@ io.sockets.on('connection', function (socket)
                 console.log(interruptionDetection[thisChannel]);
 
                 // If we have more than one person speaking in this channel, let them know!
-                if(socketsSpeaking.length > 1){
+                if(socketsSpeaking.length > 1) {
                     console.log("Detected " + socketsSpeaking.length + " users speaking in channel " + thisChannel);
-                    for(comSocket in channels[thisChannel]){
-                        if(socketsSpeaking.indexOf(comSocket) > -1){
-                            interruptionCounts[thisChannel][comSocket] = interruptionCounts[thisChannel][comSocket] + 1;
-                            channels[thisChannel][comSocket].emit('interrupt_detected', { count: interruptionCounts[thisChannel][comSocket] });
+                    for(comSocket in channels[thisChannel]) {
+                        let socketIndex = String.toString(comSocket);
+                        if(socketsSpeaking.indexOf(socketIndex) > -1) {
+                            interruptionCounts[thisChannel][socketIndex] = interruptionCounts[thisChannel][socketIndex] + 1;
+                            channels[thisChannel][comSocket].emit('interrupt_detected', { count: interruptionCounts[thisChannel][socketIndex] });
                         }
                     }
                 }
