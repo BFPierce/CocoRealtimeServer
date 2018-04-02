@@ -178,9 +178,11 @@ io.sockets.on('connection', function (socket)
                 // If we have more than one person speaking in this channel, let them know!
                 if(socketsSpeaking.length > 1){
                     console.log("Detected " + socketsSpeaking.length + " users speaking in channel " + thisChannel);
-                    for(id in socketsSpeaking){
-                        interruptionCounts[thisChannel][id] = interruptionCounts[thisChannel][id] + 1;
-                        channels[thisChannel][id].emit('interrupt_detected', { count: interruptionCounts[thisChannel][id] });
+                    for(comSocket in channels[thisChannel]){
+                        if(socketsSpeaking.indexOf(comSocket.id) > -1){
+                            interruptionCounts[thisChannel][comSocket.id] = interruptionCounts[thisChannel][comSocket.id] + 1;
+                            channels[thisChannel][comSocket].emit('interrupt_detected', { count: interruptionCounts[thisChannel][comSocket.id] });
+                        }
                     }
                 }
 
