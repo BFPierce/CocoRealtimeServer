@@ -46,7 +46,7 @@ var channels = {};
 var sockets = {};
 
 // Coco Conference Session Data
-var requiredUserCount = 2;
+var requiredUserCount = 4;
 
 var sessions = {};
 var connectedUsers = {};
@@ -177,11 +177,10 @@ io.sockets.on('connection', function (socket)
                 if(socketsSpeaking.length > 1) {
                     console.log("Detected " + socketsSpeaking.length + " users speaking in channel " + thisChannel);
                     for(comSocket in channels[thisChannel]) {
-                        let socketIndex = String.toString(comSocket);
-                        if(socketsSpeaking.indexOf(socketIndex) > -1) {
-                            interruptionCounts[thisChannel][socketIndex] = interruptionCounts[thisChannel][socketIndex] + 1;
-                            channels[thisChannel][comSocket].emit('interrupt_detected', { count: interruptionCounts[thisChannel][socketIndex] });
-                        }
+                        if(socketsSpeaking.indexOf(comSocket) > -1) {
+                            interruptionCounts[thisChannel][comSocket] = interruptionCounts[thisChannel][comSocket] + 1;
+                            channels[thisChannel][comSocket].emit('interrupt_detected', { count: interruptionCounts[thisChannel][comSocket] });
+                        }          
                     }
                 }
 
